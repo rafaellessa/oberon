@@ -1,13 +1,14 @@
-import { JobAttributes } from "../entity/Queue";
 import QueueRepository from "../repository/QueueRepository";
 
-export default class AddJob {
+export default class GetQueue {
   queueRepository: QueueRepository;
   constructor(queueRepository: QueueRepository) {
     this.queueRepository = queueRepository;
   }
 
-  async execute(job: JobAttributes) {
-    await this.queueRepository.addJob(job);
+  async execute() {
+    const queue = await this.queueRepository.getQueue();
+    console.log("Queue no usecase: ", queue);
+    return queue;
   }
 }
