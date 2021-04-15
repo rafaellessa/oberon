@@ -7,7 +7,7 @@ export default class AddJob {
     this.queueRepository = queueRepository;
   }
 
-  async execute(job: JobAttributes) {
-    await this.queueRepository.addJob(job);
+  execute(job: JobAttributes) {
+    return this.queueRepository.addJob(job);
   }
 }

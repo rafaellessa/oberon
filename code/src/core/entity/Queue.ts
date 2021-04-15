@@ -1,5 +1,5 @@
 export interface JobAttributes {
-  id: string;
+  id: number;
   payload: {
     filename: string;
     body: string;
@@ -7,22 +7,19 @@ export interface JobAttributes {
 }
 
 export default class Queue {
-  queue: Array<JobAttributes> = [];
-  myWorker: (_job?: JobAttributes | undefined) => Promise<void | Queue>;
+  queue: JobAttributes[] = [];
+  private _myWork: (_job: JobAttributes) => Promise<Queue>;
 
-  constructor(myWorker: (_job?: JobAttributes) => Promise<void | Queue>) {
-    this.myWorker = myWorker;
+  constructor(_myWork: (_job: JobAttributes) => Promise<Queue>) {
+    this._myWork = _myWork;
   }
 
-  async addJob(job: JobAttributes) {
-    return await this.myWorker(job);
+  async addJob(job: JobAttributes): Promise<JobAttributes[]> {
+    await this._myWork(job);
+    return await this.getQueue();
   }
-
-  async removeJob() {}
-  async removeAllJobs() {}
-  async getJobs() {}
 
   async getQueue() {
-    return await this.myWorker();
+    return this.queue;
   }
 }

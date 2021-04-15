@@ -4,25 +4,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const AddJob_1 = __importDefault(require("../core/usecase/AddJob"));
-const GetQueue_1 = __importDefault(require("../core/usecase/GetQueue"));
-const QueueRepositoryMemory_1 = __importDefault(require("../infra/repository/QueueRepositoryMemory"));
-test("Should be add jobs in queue", async () => {
-    const queueRepositoryMemory = new QueueRepositoryMemory_1.default();
+const QueueRepositoryMemory_1 = require("../infra/repository/QueueRepositoryMemory");
+test("Should be add a job", async () => {
+    const queueRepositoryMemory = new QueueRepositoryMemory_1.QueueRepositoryMemory();
     const addJob = new AddJob_1.default(queueRepositoryMemory);
     const job = {
-        id: "1",
+        id: 1,
         payload: {
-            body: "test a insert job",
-            filename: "test.txt",
+            filename: "file1.txt",
+            body: "exemplo de conteudo 1",
         },
     };
-    await addJob.execute(job);
-    const getQueue = new GetQueue_1.default(queueRepositoryMemory);
-    const queue = await getQueue.execute();
-    console.log("queue esperada: ", queue);
-    expect(queue).toEqual(expect.arrayContaining([
-        expect.objectContaining({
-            id: "1",
-        }),
-    ]));
+    const parsedJob = await addJob.execute(job);
+    expect(parsedJob).toEqual(expect.arrayContaining([expect.objectContaining(job)]));
 });

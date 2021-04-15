@@ -1,21 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Queue {
-    constructor(myWorker) {
+    constructor(_myWork) {
         this.queue = [];
-        this.myWorker = myWorker;
+        this._myWork = _myWork;
     }
     async addJob(job) {
-        return await this.myWorker(job);
+        await this._myWork(job);
+        return await this.getQueue();
     }
-    async removeJob() { }
-    async removeAllJobs() { }
-    async getJobs() { }
     async getQueue() {
-        return await this.myWorker();
-    }
-    setQueue(queue) {
-        this.queue = queue;
+        return this.queue;
     }
 }
 exports.default = Queue;

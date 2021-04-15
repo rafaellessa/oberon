@@ -1,29 +1,18 @@
-import { JobAttributes } from "../core/entity/Queue";
 import AddJob from "../core/usecase/AddJob";
-import GetQueue from "../core/usecase/GetQueue";
-import QueueRepositoryMemory from "../infra/repository/QueueRepositoryMemory";
+import { QueueRepositoryMemory } from "../infra/repository/QueueRepositoryMemory";
 
-test("Should be add jobs in queue", async () => {
+test("Should be add a job", async () => {
   const queueRepositoryMemory = new QueueRepositoryMemory();
   const addJob = new AddJob(queueRepositoryMemory);
-  const job: JobAttributes = {
-    id: "1",
+  const job = {
+    id: 1,
     payload: {
-      body: "test a insert job",
-      filename: "test.txt",
+      filename: "file1.txt",
+      body: "exemplo de conteudo 1",
     },
   };
-  await addJob.execute(job);
-  const getQueue = new GetQueue(queueRepositoryMemory);
-  const queue = await getQueue.execute();
-
-  console.log("queue esperada: ", queue);
-
-  expect(queue).toEqual(
-    expect.arrayContaining([
-      expect.objectContaining({
-        id: "1",
-      }),
-    ])
+  const parsedJob = await addJob.execute(job);
+  expect(parsedJob).toEqual(
+    expect.arrayContaining([expect.objectContaining(job)])
   );
 });
