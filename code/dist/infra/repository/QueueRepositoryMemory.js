@@ -13,14 +13,13 @@ class QueueRepositoryMemory {
         const instance = new Queue_1.default((_job) => {
             return new Promise((resolve) => {
                 setTimeout(() => {
+                    console.log(new Date(), job);
                     this.jobs.push(_job);
                     resolve(this.jobs);
-                    console.log("Jobs: ", this.jobs);
                 }, 1000);
             });
         });
-        const response = await instance.addJob(job);
-        console.log("Repsonse: ", response);
+        await instance.addJob(job);
         return this.jobs;
     }
 }

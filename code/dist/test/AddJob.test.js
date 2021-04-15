@@ -8,6 +8,7 @@ const QueueRepositoryMemory_1 = require("../infra/repository/QueueRepositoryMemo
 test("Should be add a job", async () => {
     const queueRepositoryMemory = new QueueRepositoryMemory_1.QueueRepositoryMemory();
     const addJob = new AddJob_1.default(queueRepositoryMemory);
+    let jobs = [];
     for (let i = 0; i <= 2; i++) {
         const job = {
             id: i,
@@ -16,7 +17,7 @@ test("Should be add a job", async () => {
                 body: `exemplo de conteudo do arquivo ${i}`,
             },
         };
-        const jobs = await addJob.execute(job);
-        console.log("Jobsasasasasasasas: ", jobs);
+        jobs = await addJob.execute(job);
     }
-}, 500000);
+    expect(jobs).toHaveLength(3);
+});
