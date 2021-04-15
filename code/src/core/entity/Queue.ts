@@ -7,9 +7,9 @@ export interface JobAttributes {
 }
 
 export default class Queue {
-  private _myWorker: (job: JobAttributes) => Promise<any>;
+  private _myWorker: (job: JobAttributes) => Promise<JobAttributes[]>;
 
-  constructor(myWorker: (job: JobAttributes) => Promise<any>) {
+  constructor(myWorker: (job: JobAttributes) => Promise<JobAttributes[]>) {
     this._myWorker = myWorker;
   }
 
