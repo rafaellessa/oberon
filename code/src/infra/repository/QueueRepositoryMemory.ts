@@ -1,10 +1,20 @@
 import Queue, { JobAttributes } from "../../core/entity/Queue";
 import QueueRepository from "../../core/repository/QueueRepository";
-
 export class QueueRepositoryMemory implements QueueRepository {
   jobs: Array<JobAttributes>;
   constructor() {
     this.jobs = [];
+  }
+  async getJobs(): Promise<JobAttributes[]> {
+    const instance = new Queue(() => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(this.jobs);
+        }, 1000);
+      });
+    });
+    await instance.getJobs();
+    return this.jobs;
   }
 
   async addJob(job: JobAttributes): Promise<JobAttributes[]> {
@@ -12,7 +22,7 @@ export class QueueRepositoryMemory implements QueueRepository {
       return new Promise((resolve) => {
         setTimeout(() => {
           console.log(new Date(), job);
-          this.jobs.push(_job);
+          this.jobs.push(_job!);
           resolve(this.jobs);
         }, 1000);
       });

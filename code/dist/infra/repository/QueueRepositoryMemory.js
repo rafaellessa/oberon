@@ -9,6 +9,17 @@ class QueueRepositoryMemory {
     constructor() {
         this.jobs = [];
     }
+    async getJobs() {
+        const instance = new Queue_1.default(() => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(this.jobs);
+                }, 1000);
+            });
+        });
+        await instance.getJobs();
+        return this.jobs;
+    }
     async addJob(job) {
         const instance = new Queue_1.default((_job) => {
             return new Promise((resolve) => {

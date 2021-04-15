@@ -7,5 +7,8 @@ class Queue {
     async addJob(job) {
         return await this._myWorker(job);
     }
+    async getJobs() {
+        return await this._myWorker;
+    }
 }
 exports.default = Queue;

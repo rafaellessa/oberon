@@ -7,5 +7,7 @@ export default class GetJobs {
     this.queueRepository = queueRepository;
   }
 
-  execute() {}
+  async execute() {
+    return await this.queueRepository.getJobs();
+  }
 }
