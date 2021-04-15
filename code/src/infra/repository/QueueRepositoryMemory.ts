@@ -5,6 +5,23 @@ export class QueueRepositoryMemory implements QueueRepository {
   constructor() {
     this.jobs = [];
   }
+  async removeJob(id: number): Promise<JobAttributes[]> {
+    const instance = new Queue((id) => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log("Removing job with id: ", id);
+          const filtredJobs: JobAttributes[] = this.jobs.filter(
+            (item: JobAttributes) => item.id !== id
+          );
+          this.jobs = filtredJobs.slice();
+          resolve(filtredJobs);
+        }, 1000);
+      });
+    });
+
+    await instance.removeJob(id);
+    return this.jobs;
+  }
   async getJobs(): Promise<JobAttributes[]> {
     const instance = new Queue(() => {
       return new Promise((resolve) => {

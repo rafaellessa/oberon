@@ -10,5 +10,8 @@ class Queue {
     async getJobs() {
         return await this._myWorker;
     }
+    async removeJob(id) {
+        return await this._myWorker(id);
+    }
 }
 exports.default = Queue;

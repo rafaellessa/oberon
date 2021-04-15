@@ -9,6 +9,20 @@ class QueueRepositoryMemory {
     constructor() {
         this.jobs = [];
     }
+    async removeJob(id) {
+        const instance = new Queue_1.default((id) => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    console.log("Removing job with id: ", id);
+                    const filtredJobs = this.jobs.filter((item) => item.id !== id);
+                    this.jobs = filtredJobs.slice();
+                    resolve(filtredJobs);
+                }, 1000);
+            });
+        });
+        await instance.removeJob(id);
+        return this.jobs;
+    }
     async getJobs() {
         const instance = new Queue_1.default(() => {
             return new Promise((resolve) => {

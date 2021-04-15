@@ -1,5 +1,14 @@
-export default class RemoveJob {
-  constructor() {}
+import { JobAttributes } from "../entity/Queue";
+import QueueRepository from "../repository/QueueRepository";
 
-  execute() {}
+export default class RemoveJob {
+  queueRepository: QueueRepository;
+
+  constructor(queueRepository: QueueRepository) {
+    this.queueRepository = queueRepository;
+  }
+
+  async execute(id: number) {
+    return await this.queueRepository.removeJob(id);
+  }
 }
