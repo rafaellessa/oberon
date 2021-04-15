@@ -1,5 +1,13 @@
-export default class GetJobs {
-  constructor() {}
+import QueueRepository from "../repository/QueueRepository";
 
-  execute() {}
+export default class GetJobs {
+  queueRepository: QueueRepository;
+
+  constructor(queueRepository: QueueRepository) {
+    this.queueRepository = queueRepository;
+  }
+
+  execute() {
+    return this.queueRepository.getJobs();
+  }
 }

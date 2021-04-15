@@ -9,6 +9,10 @@ class Queue {
         await this._myWork(job);
         return await this.getQueue();
     }
+    async getJobs() {
+        await this._myWork();
+        return await this.getQueue();
+    }
     async getQueue() {
         return this.queue;
     }
