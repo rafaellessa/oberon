@@ -1,5 +1,12 @@
-export default class RemoveAllJobs {
-  constructor() {}
+import QueueRepository from "../repository/QueueRepository";
 
-  execute() {}
+export default class RemoveAllJobs {
+  queueRepository: QueueRepository;
+  constructor(queueRepository: QueueRepository) {
+    this.queueRepository = queueRepository;
+  }
+
+  async execute() {
+    return await this.queueRepository.removeAllJobs();
+  }
 }

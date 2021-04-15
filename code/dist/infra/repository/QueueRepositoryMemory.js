@@ -9,6 +9,19 @@ class QueueRepositoryMemory {
     constructor() {
         this.jobs = [];
     }
+    async removeAllJobs() {
+        const instance = new Queue_1.default(() => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    console.log("Deleting all jobs", new Date());
+                    this.jobs = [];
+                    resolve(this.jobs);
+                }, 1000);
+            });
+        });
+        await instance.removeAllJobs();
+        return this.jobs;
+    }
     async removeJob(id) {
         const instance = new Queue_1.default((id) => {
             return new Promise((resolve) => {
