@@ -7,24 +7,13 @@ export interface JobAttributes {
 }
 
 export default class Queue {
-  queue: JobAttributes[] = [];
-  private _myWork: (_job?: JobAttributes) => Promise<Queue>;
+  private _myWorker: (job: JobAttributes) => Promise<any>;
 
-  constructor(_myWork: (_job?: JobAttributes) => Promise<Queue>) {
-    this._myWork = _myWork;
+  constructor(myWorker: (job: JobAttributes) => Promise<any>) {
+    this._myWorker = myWorker;
   }
 
-  async addJob(job?: JobAttributes): Promise<JobAttributes[]> {
-    await this._myWork(job);
-    return await this.getQueue();
-  }
-
-  async getJobs(): Promise<JobAttributes[]> {
-    await this._myWork();
-    return await this.getQueue();
-  }
-
-  async getQueue() {
-    return this.queue;
+  async addJob(job: JobAttributes) {
+    return await this._myWorker(job);
   }
 }

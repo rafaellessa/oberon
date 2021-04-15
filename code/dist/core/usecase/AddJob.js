@@ -4,8 +4,8 @@ class AddJob {
     constructor(queueRepository) {
         this.queueRepository = queueRepository;
     }
-    execute(job) {
-        return this.queueRepository.addJob(job);
+    async execute(job) {
+        return await this.queueRepository.addJob(job);
     }
 }
 exports.default = AddJob;

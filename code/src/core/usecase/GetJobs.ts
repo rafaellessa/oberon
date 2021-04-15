@@ -7,7 +7,5 @@ export default class GetJobs {
     this.queueRepository = queueRepository;
   }
 
-  execute() {
-    return this.queueRepository.getJobs();
-  }
+  execute() {}
 }

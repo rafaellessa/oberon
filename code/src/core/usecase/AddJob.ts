@@ -3,11 +3,12 @@ import QueueRepository from "../repository/QueueRepository";
 
 export default class AddJob {
   queueRepository: QueueRepository;
+
   constructor(queueRepository: QueueRepository) {
     this.queueRepository = queueRepository;
   }
 
-  execute(job: JobAttributes) {
-    return this.queueRepository.addJob(job);
+  async execute(job: JobAttributes) {
+    return await this.queueRepository.addJob(job);
   }
 }
