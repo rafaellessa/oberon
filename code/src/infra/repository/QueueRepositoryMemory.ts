@@ -11,6 +11,7 @@ export class QueueRepositoryMemory implements QueueRepository {
         setTimeout(() => {
           console.log("Deleting all jobs", new Date());
           this.jobs = [];
+          console.log("Jobs after delete", this.jobs);
           resolve(this.jobs);
         }, 1000);
       });
@@ -28,6 +29,7 @@ export class QueueRepositoryMemory implements QueueRepository {
             (item: JobAttributes) => item.id !== id
           );
           this.jobs = filtredJobs.slice();
+          console.log("Jobs after delete: ", this.jobs);
           resolve(filtredJobs);
         }, 1000);
       });
@@ -40,6 +42,7 @@ export class QueueRepositoryMemory implements QueueRepository {
     const instance = new Queue(() => {
       return new Promise((resolve) => {
         setTimeout(() => {
+          console.log("Getting all jobs: ", this.jobs);
           resolve(this.jobs);
         }, 1000);
       });
