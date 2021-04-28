@@ -5,21 +5,34 @@ export class QueueRepositoryMemory implements QueueRepository {
   constructor() {
     this.jobs = [];
   }
-  async removeAllJobs(): Promise<JobAttributes[]> {
-    const instance = new Queue(() => {
+
+  async addJob(job: JobAttributes): Promise<JobAttributes[]> {
+    const instance = new Queue((_job) => {
       return new Promise((resolve) => {
         setTimeout(() => {
-          console.log("Deleting all jobs", new Date());
-          this.jobs = [];
-          console.log("Jobs after delete", this.jobs);
+          console.log(new Date(), job);
+          this.jobs.push(_job!);
           resolve(this.jobs);
         }, 1000);
       });
     });
-
-    await instance.removeAllJobs();
+    await instance.addJob(job);
     return this.jobs;
   }
+
+  async getJobs(): Promise<JobAttributes[]> {
+    const instance = new Queue(() => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log("Getting all jobs: ", this.jobs);
+          resolve(this.jobs);
+        }, 1000);
+      });
+    });
+    await instance.getJobs();
+    return this.jobs;
+  }
+
   async removeJob(id: number): Promise<JobAttributes[]> {
     const instance = new Queue((id) => {
       return new Promise((resolve) => {
@@ -38,30 +51,20 @@ export class QueueRepositoryMemory implements QueueRepository {
     await instance.removeJob(id);
     return this.jobs;
   }
-  async getJobs(): Promise<JobAttributes[]> {
+
+  async removeAllJobs(): Promise<JobAttributes[]> {
     const instance = new Queue(() => {
       return new Promise((resolve) => {
         setTimeout(() => {
-          console.log("Getting all jobs: ", this.jobs);
+          console.log("Deleting all jobs", new Date());
+          this.jobs = [];
+          console.log("Jobs after delete", this.jobs);
           resolve(this.jobs);
         }, 1000);
       });
     });
-    await instance.getJobs();
-    return this.jobs;
-  }
 
-  async addJob(job: JobAttributes): Promise<JobAttributes[]> {
-    const instance = new Queue((_job) => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          console.log(new Date(), job);
-          this.jobs.push(_job!);
-          resolve(this.jobs);
-        }, 1000);
-      });
-    });
-    await instance.addJob(job);
+    await instance.removeAllJobs();
     return this.jobs;
   }
 }
